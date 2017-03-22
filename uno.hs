@@ -32,3 +32,25 @@ absoluto x   | x<0 = (-x)
 
 esMultiplo2:: Int -> Bool
 esMultiplo2 x = mod x 2 == 0
+
+--Actividad 17-22
+
+esMultiploDe:: Int->Int->Bool
+esMultiploDe x y = mod y x == 0
+
+esBisiesto:: Int->Bool
+esBisiesto x | mod x 400 == 0 = True
+             | (mod x 4 == 0 && not( mod x 100 == 0)) = True
+             | otherwise = False
+
+dispercion:: Int->Int->Int->Int
+dispercion x y z = (max(max x y) z) - (min (min x y) z)
+
+celsiusToFahr:: Fractional a => a -> a
+celsiusToFahr x = x * 1.8 + 32
+
+fahrToCelsius:: Fractional a => a -> a
+fahrToCelsius x = (x - 32) / 1.8
+
+haceFrioF:: Float -> Bool
+haceFrioF x = (fahrToCelsius x) < 8
