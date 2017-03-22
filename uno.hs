@@ -54,3 +54,23 @@ fahrToCelsius x = (x - 32) / 1.8
 
 haceFrioF:: Float -> Bool
 haceFrioF x = (fahrToCelsius x) < 8
+
+--Actividad 23
+
+segundo3:: (Int, Int, Int) -> Int
+segundo3 (x,y,z) = y
+
+ordena:: (Int, Int) -> (Int, Int)
+ordena (x, y) = (min x y , max x y)
+
+rangoPrecioParametrizado:: Int -> (Int,Int) -> String
+rangoPrecioParametrizado x (y,z) | x < 0 = "esto no puede ser!"
+                                 | x < min y z = "muy barato"
+                                 | x > min y z && x < max y z = "hay que verlo bien"
+                                 | x > max y z = "demaciado caro"
+
+mayor3:: (Int, Int, Int)-> (Bool, Bool, Bool)
+mayor3 (x,y,z) = (x > 3, y > 3, z > 3)
+
+todosIguales:: (Int, Int, Int) -> Bool
+todosIguales (x,y,z) = (x == y && y == z)
