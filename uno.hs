@@ -74,3 +74,7 @@ mayor3 (x,y,z) = (x > 3, y > 3, z > 3)
 
 todosIguales:: (Int, Int, Int) -> Bool
 todosIguales (x,y,z) = (x == y && y == z)
+
+soloPares [] = []
+soloPares (x:xs) | mod x 2 == 0 = x:soloPar xs
+		 | mod x 2 /=0 = soloPares xs
