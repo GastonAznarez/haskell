@@ -78,9 +78,17 @@ ultimo (x:xs) | length xs == 0 = x
               | length xs /= 0 = ultimo xs 
 
 
+repetir :: Int -> Int -> [Int]
+repetir 0 x = []
+repetir x y = y:(repetir (x-1) y)
 
+concate :: [[a]] -> [a]
+concate [] = []
+concate (y:xs) = y++(concate xs)
 
-
+rev :: [a] -> [a]
+rev [] = []
+rev (x:xs) = (rev xs)++[x]
 
 
 
