@@ -49,6 +49,14 @@ suma [] = 0
 suma (x:xs) = x + (sum xs)
 
 
+--Actividad 6
+
+
+repartir :: [String] -> [String] -> [(String,String)]
+repartir [] [a] = []
+repartir [a] [] = []
+repartir (x:xs) (y:ys) = (x,y):repartir xs ys
+
 
 --Actividad 9
 
