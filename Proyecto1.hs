@@ -14,6 +14,7 @@ factorial 0 = 1
 factorial x = x * factorial (x-1)
 
 promedio :: [Int] -> Int
+promedio [] = 0
 promedio (xs) = (sumatoria xs) `div` (length xs)
 
 --Ejercicio 2
@@ -33,13 +34,13 @@ productoria (x:xs) = x * productoria xs
 --Ejercicio 3
 
 pertenece :: Int -> [Int] -> Bool
-pertenece y [] = False
+pertenece _ [] = False
 pertenece y (x:xs) = x == y || pertenece y xs
 
 --Ejercicio 4
 
 encuentra :: Int -> [(Int, String)] -> String
-encuentra y [] = ""
+encuentra _ [] = ""
 encuentra y ((a,b):xs) | a == y = b
                        | otherwise = encuentra y xs 
 
@@ -48,45 +49,39 @@ encuentra y ((a,b):xs) | a == y = b
 --a
 
 paratodo' :: [a] -> (a -> Bool) -> Bool
-paratodo' [] t = True
+paratodo' [] _ = True
 paratodo' (x:xs) t = t x && paratodo' xs t
 
 --b 
 
 existe' :: [a] -> (a -> Bool) -> Bool
-existe' [] t = False
+existe' [] _ = False
 existe' (x:xs) t = t x || existe' xs t
 
 --c
 
 sumatoria' :: [a] -> (a -> Int) -> Int
-sumatoria' [] t = 0
+sumatoria' [] _ = 0
 sumatoria' (x:xs) t = (t x) + (sumatoria' xs t)
 
 --d
 
 productoria' :: [a] -> (a -> Int) -> Int
-productoria' [] t = 1
+productoria' [] _ = 1
 productoria' (x:xs) t = t x * productoria' xs t
 
 
---Ejercicio 6 PREGUNTAR: Si se puede usar funcion auxiliar
-
-estrue :: Bool -> Bool
-estrue x = x
+--Ejercicio 6 
 
 paratodo'' :: [Bool] -> Bool
-paratodo'' xs  = paratodo' xs estrue
+paratodo'' xs  = paratodo' xs ( == True)
 
 --Ejercicio 7
 
 --a 
 
-esPar :: Int -> Bool
-esPar x = x `mod` 2 == 0
-
 todosPares :: [Int] -> Bool
-todosPares xs = paratodo' xs esPar
+todosPares xs = paratodo' xs even
 
 --b 
 
@@ -104,12 +99,12 @@ cuadrado x = x*x
 sumaMultiplos :: Int -> Int
 sumaMultiplos x = sumatoria' [1..x] cuadrado
 
---d PREGUNTAR: que pasa si en la lista no hay pares?
+--d
 devolverPar :: Int -> Int
 devolverPar x = (((x-1) `mod` 2) * (x-1)) + 1 
 
 multiplicaPares :: [Int] -> Int
-multiplicaPares xs = productoria' xs devolverPar
+multiplicaPares xs = 1 * ( productoria' xs devolverPar )
 
 -- Ejercicio 8
 
@@ -148,33 +143,33 @@ dooble' xs = map porDos xs
 
 losPares :: [Int] -> [Int]
 losPares [] = []
-losPares (x:xs) | esPar x = x : losPares xs
+losPares (x:xs) | even x = x : losPares xs
                 | otherwise = losPares xs
 
 --b
 
 losPares' :: [Int] -> [Int]
-losPares' xs = filter esPar xs 
+losPares' xs = filter even xs 
 
 --c
 
 multiplicaPares' :: [Int] -> Int
-multiplicaPares' xs = productoria (filter esPar xs) 
+multiplicaPares' xs = productoria (filter even xs) 
 
 -- Ejercicio 11
 
 --a
 
 sumarALista :: Num a => a -> [a] -> [a]
-sumarALista y [] = []
+sumarALista _ [] = []
 sumarALista y (x:xs) = y + x : sumarALista y xs
 
-encabezar :: a -> [[a]] -> [[a]] --Revisar el warning cuando a = Int
-encabezar y [] = []
+encabezar :: a -> [[a]] -> [[a]] 
+encabezar _ [] = []
 encabezar y (x:xs) = (y:x) : encabezar y xs
 
 mayoresA :: Ord a => a -> [a] -> [a]
-mayoresA y [] = []
+mayoresA _ [] = []
 mayoresA y (x:xs) | x > y = x : mayoresA y xs
                   | otherwise = mayoresA y xs
 
@@ -192,7 +187,7 @@ mayoresA' y xs = filter ( y < ) xs
 -- Ejercicio 12
 
 encuentra' :: Int -> [(Int,String)] -> String
-encuentra' x [] = ""
+encuentra' _ [] = ""
 encuentra' x xs = snd (head (filter ( (==x).fst ) xs ))
 
 -- Ejercicio 13
@@ -200,7 +195,7 @@ encuentra' x xs = snd (head (filter ( (==x).fst ) xs ))
 -- a
 
 primIgualesA :: Int -> [Int] -> [Int]
-primIgualesA y [] = []
+primIgualesA _ [] = []
 primIgualesA y (x:xs) | y == x = x : primIgualesA y xs
                       | otherwise = []
 
@@ -238,6 +233,3 @@ minimo' :: (Ord a, Bounded a) => [a] -> a
 minimo' [] = minBound
 minimo' [x] = x
 minimo' (x:xs) = min x (minimo' xs) 
-
-
-
