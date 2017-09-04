@@ -5,7 +5,7 @@ esCero x = x == 0
 
 esPositivo :: Int -> Bool
 esPositivo x = x > 0
- 
+
 esVocal :: Char -> Bool
 esVocal x = x == 'a' || x == 'e' || x == 'i' || x == 'o' || x == 'u'
 
@@ -42,7 +42,7 @@ pertenece y (x:xs) = x == y || pertenece y xs
 encuentra :: Int -> [(Int, String)] -> String
 encuentra _ [] = ""
 encuentra y ((a,b):xs) | a == y = b
-                       | otherwise = encuentra y xs 
+                       | otherwise = encuentra y xs
 
 --Ejercicio 5
 
@@ -52,7 +52,7 @@ paratodo' :: [a] -> (a -> Bool) -> Bool
 paratodo' [] _ = True
 paratodo' (x:xs) t = t x && paratodo' xs t
 
---b 
+--b
 
 existe' :: [a] -> (a -> Bool) -> Bool
 existe' [] _ = False
@@ -71,27 +71,27 @@ productoria' [] _ = 1
 productoria' (x:xs) t = t x * productoria' xs t
 
 
---Ejercicio 6 
+--Ejercicio 6
 
 paratodo'' :: [Bool] -> Bool
 paratodo'' xs  = paratodo' xs ( == True)
 
 --Ejercicio 7
 
---a 
+--a
 
 todosPares :: [Int] -> Bool
 todosPares xs = paratodo' xs even
 
---b 
+--b
 
 esMultiplo :: Int -> Int -> Bool
-esMultiplo x y = y `mod` x == 0 
+esMultiplo x y = y `mod` x == 0
 
 hayMultiplo :: Int -> [Int] -> Bool
 hayMultiplo x xs = existe' xs (esMultiplo x)
 
---c 
+--c
 
 cuadrado :: Int -> Int
 cuadrado x = x*x
@@ -101,7 +101,7 @@ sumaMultiplos x = sumatoria' [1..x] cuadrado
 
 --d
 devolverPar :: Int -> Int
-devolverPar x = (((x-1) `mod` 2) * (x-1)) + 1 
+devolverPar x = (((x-1) `mod` 2) * (x-1)) + 1
 
 multiplicaPares :: [Int] -> Int
 multiplicaPares xs = 1 * ( productoria' xs devolverPar )
@@ -110,7 +110,7 @@ multiplicaPares xs = 1 * ( productoria' xs devolverPar )
 
 --a
 
---A la función map se le da una lista xs y una función f, y devuelve una lista ys obtenida de aplicar la función f a cada elemento de la lista xs. 
+--A la función map se le da una lista xs y una función f, y devuelve una lista ys obtenida de aplicar la función f a cada elemento de la lista xs.
 -- map :: (a -> b) -> [a] -> [b]
 
 --A la función filter se le da un predicado p y una lista xs y devuelve una lista con tods los elementos de xs que satisfacen p.
@@ -128,18 +128,18 @@ multiplicaPares xs = 1 * ( productoria' xs devolverPar )
 -- Ejercicio 9
 
 porDos :: Int -> Int
-porDos x = x*2 
+porDos x = x*2
 
 dooble :: [Int] -> [Int]
 dooble [] = []
-dooble (x:xs) = (2*x) : (dooble xs) 
+dooble (x:xs) = (2*x) : (dooble xs)
 
 dooble' :: [Int] -> [Int]
-dooble' xs = map porDos xs 
+dooble' xs = map porDos xs
 
 -- Ejercicio 10
 
---a 
+--a
 
 losPares :: [Int] -> [Int]
 losPares [] = []
@@ -149,12 +149,12 @@ losPares (x:xs) | even x = x : losPares xs
 --b
 
 losPares' :: [Int] -> [Int]
-losPares' xs = filter even xs 
+losPares' xs = filter even xs
 
 --c
 
 multiplicaPares' :: [Int] -> Int
-multiplicaPares' xs = productoria (filter even xs) 
+multiplicaPares' xs = productoria (filter even xs)
 
 -- Ejercicio 11
 
@@ -164,7 +164,7 @@ sumarALista :: Num a => a -> [a] -> [a]
 sumarALista _ [] = []
 sumarALista y (x:xs) = y + x : sumarALista y xs
 
-encabezar :: a -> [[a]] -> [[a]] 
+encabezar :: a -> [[a]] -> [[a]]
 encabezar _ [] = []
 encabezar y (x:xs) = (y:x) : encabezar y xs
 
@@ -212,7 +212,7 @@ primIguales :: [Int] -> [Int]
 primIguales [] = []
 primIguales [x] = [x]
 primIguales (x:xs) | head xs == x = x : primIguales xs
-                   | otherwise = [x] 
+                   | otherwise = [x]
 
 -- b
 
@@ -225,11 +225,28 @@ primIguales' xs = primIgualesA' (head xs) xs
 
 minimo :: Ord a => [a] -> a
 minimo [x] = x
-minimo (x:xs) = min x (minimo xs) 
+minimo (x:xs) = min x (minimo xs)
 
 -- b
 
 minimo' :: (Ord a, Bounded a) => [a] -> a
 minimo' [] = minBound
 minimo' [x] = x
-minimo' (x:xs) = min x (minimo' xs) 
+minimo' (x:xs) = min x (minimo' xs)
+
+
+
+
+nuts = 2:(map (+1) nuts)
+
+primos = 2: (filter f xs)
+
+  where
+    f n = length [x | x <- [2..(n-1)], n `mod` x == 0 ] == 0
+    xs = takeWhile (>2) (tail (tail nuts))
+
+
+
+
+filtro :: [Int]
+filtro (p:nuts) = p : filtro [x | x <- nuts, x `mod` p /= 0]
