@@ -225,6 +225,7 @@ primIguales' xs = primIgualesA' (head xs) xs
 
 minimo :: Ord a => [a] -> a
 minimo [x] = x
+minimo [] = undefined
 minimo (x:xs) = min x (minimo xs)
 
 -- b
@@ -236,6 +237,7 @@ minimo' (x:xs) = min x (minimo' xs)
 
 --Ejercicio Extra
 
+nuts :: [Int]
 nuts = 1:(map (+1) nuts)
 
 -- Pregunta: ¿Que da (Filter even nuts)!!3?
@@ -246,7 +248,7 @@ fuck 0 = 1
 fuck n = n * fuck (n-1)
 
 -- Ejercicio Dificil versión Gastón
-
+primos :: [Int]
 primos = 2: (filter f xs)
 
   where
@@ -259,6 +261,7 @@ prim = filtro [2..]
 --Tambien se puede usar (tail(tail nuts)) pero me parece mejor esta forma
 
 filtro :: [Int] -> [Int]
+filtro [] = undefined
 filtro (p:xs) = p : filtro [x | x <- xs, x `mod` p /= 0]
 
 -- Ejercicio Dificil version Ignacio
@@ -270,9 +273,11 @@ haydivisor :: Int -> [Int] -> Bool
 haydivisor z [] = False
 haydivisor y (x:xs) = ((mod y x) == 0) || haydivisor y xs
 
+nutsI :: [Int]
 nutsI = 1:(map (+2) nutsI)
 --Solo verifico los numeros impares ya que el unico primo par es el 2, y ya esta pegado a la lista.
 
+primosI :: [Int]
 primosI = 2:(filter f xs)
   where
     f n = not (haydivisor n (2:[3,5..(raiz n)]))
