@@ -234,10 +234,18 @@ minimo' [] = minBound
 minimo' [x] = x
 minimo' (x:xs) = min x (minimo' xs)
 
-
--- Ejercicios extras versión Gastón
+--Ejercicio Extra
 
 nuts = 1:(map (+1) nuts)
+
+-- Pregunta: ¿Que da (Filter even nuts)!!3?
+-- (Filter even nuts)!!3 = 8
+
+fuck :: Int -> Int
+fuck 0 = 1
+fuck n = n * fuck (n-1)
+
+-- Ejercicio Dificil versión Gastón
 
 primos = 2: (filter f xs)
 
@@ -252,3 +260,46 @@ prim = filtro [2..]
 
 filtro :: [Int] -> [Int]
 filtro (p:xs) = p : filtro [x | x <- xs, x `mod` p /= 0]
+
+-- Ejercicio Dificil version Ignacio
+
+raiz :: Int -> Int
+raiz x = round(sqrt (fromInteger(toInteger x)))
+
+haydivisor :: Int -> [Int] -> Bool
+haydivisor z [] = False
+haydivisor y (x:xs) = ((mod y x) == 0) || haydivisor y xs
+
+nutsI = 1:(map (+2) nutsI)
+--Solo verifico los numeros impares ya que el unico primo par es el 2, y ya esta pegado a la lista.
+
+primosI = 2:(filter f xs)
+  where
+    f n = not (haydivisor n (2:[3,5..(raiz n)]))
+    xs = tail nutsI
+
+--Ejercicios estrella
+--Ejercicio 1
+-- a) Bien tipado, Si cubre todos los casos. (x :: (a,b))
+-- b) Bien tipado, Si cubre todos los casos. ((x,y) tupla con x :: a / y :: b)
+-- c) Mal tipado. (a,b) no es del tipo [(a,b)] (Lista de tuplas).
+-- d) Bien tipado, No cubre todos los casos (Falta la lista []). (x::(a,b) / xs :: [(a,b)])
+-- e) Bien tipado, No cubre todos los casos (Faltan [] y [(a,b)]). ((x,y) y (a,b) tuplas con x :: a / a :: a / y :: b / b :: b / xs :: [(a,b)])
+-- f) Bien tipado, No cubre todos los casos (Faltan [], x:(y:xs) y [n,a] con n /= 0).([(0,a)] :: [(Int,a)])
+-- g) Bien tipado, No cubre todos los casos (Faltan [] y [(x,a)] con a /= 1 ). ((x,1) :: (Int,a) / xs :: [(Int,a)])
+-- h) Bien tipado, No cubre todos los casos (Faltan [] y [(n,a)] con n /= 1 ). ((1,x) :: (Int,a) / xs :: [(Int,a)]
+-- i) Bien tipado, Si cubre todos los casos. (a :: Int -> Int / b :: Int)
+-- j) Bien tipado, No cubre todos los casos (Falta f a n con n /= 3). (a :: Int -> Int / 3 :: Int)
+-- k) Mal tipado, 0 1 no es del tipo (Int -> Int) (Funcion que toma un Int y retorna un Int).
+-- l) Bien tipado, Si cubre todos los casos. (a :: a / g :: Int -> Int )
+
+--Ejercicio 2
+-- a) f x = fst x // No enceuntro alternativa
+-- b) f x = snd x // No encuentro alternativa
+-- d) f x | x == True || x == False = 1
+--        |otherwise = False
+-- Si hay alternativa (Otro tipo)
+-- e) f g a = g a // No encuentro alternativa
+-- f) f g xs = map g xs // Si encuentro alternativa (recursiva)
+-- g)
+-- h) f g h a = g.h a // No encuentro otra alternativa
