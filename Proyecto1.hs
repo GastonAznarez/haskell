@@ -235,9 +235,9 @@ minimo' [x] = x
 minimo' (x:xs) = min x (minimo' xs)
 
 
+-- Ejercicios extras versión Gastón
 
-
-nuts = 2:(map (+1) nuts)
+nuts = 1:(map (+1) nuts)
 
 primos = 2: (filter f xs)
 
@@ -246,7 +246,9 @@ primos = 2: (filter f xs)
     xs = takeWhile (>2) (tail (tail nuts))
 
 
+prim :: [Int]
+prim = filtro [2..]
+--Tambien se puede usar (tail(tail nuts)) pero me parece mejor esta forma
 
-
-filtro :: [Int]
-filtro (p:nuts) = p : filtro [x | x <- nuts, x `mod` p /= 0]
+filtro :: [Int] -> [Int]
+filtro (p:xs) = p : filtro [x | x <- xs, x `mod` p /= 0]
