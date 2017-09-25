@@ -1,12 +1,108 @@
--- Cargo y Area son tipos enumerados
+--Ejercicio 1
+
+data Carrera = Matematica | Fisica | Computacion | Astronomia | Profesorado
+    deriving (Eq, Show)
+
+titulo :: Carrera -> String
+titulo Matematica = "Licenciatura en Matematica"
+titulo Fisica = "Licenciatura en Fisica"
+titulo Computacion = "Licenciatura en Ciencias de la Computacion"
+titulo Astronomia = "Licenciatura en Astronomia"
+titulo Profesorado = "Profesorado"
+
+--Se puede definiendo el tipo Carrera como Eq
+titulo' :: Carrera -> String
+titulo' x | x == Matematica = "Licenciatura en Matematica"
+          | x == Fisica = "Licenciatura en Fisica"
+          | x == Computacion = "Licenciatura en Ciencias de la Computacion"
+          | x == Astronomia = "Licenciatura en Astronomia"
+          | x == Profesorado = "Profesorado"
+          | otherwise = "No es una carrera"
+
+
+--Ejercicio 2
+
+type Ingreso = Int
+
 data Cargo = Titular | Asociado | Adjunto | Asistente | Auxiliar
+    deriving(Eq, Show)
+
 data Area = Administrativa | Ensenanza | Economica | Postgrado
---Rol es un tipo algebraico
-data Rol = Decanx -- constructor sin argumento
-          | Docente Cargo -- constructor con un argumento
-          | NoDocente Area -- constructor con un argumento
+    deriving(Eq, Show)
+
+-- El Constructor docente es de tipo Cargo -> Rol
+
+esDocenteC :: Cargo -> Rol -> Bool
+esDocenteC x (Docente c) = x == c
+esDocenteC _ _ = False
+
+cuantos_doc :: [Rol] -> Cargo -> Int
+cuantos_doc [] _ = 0
+cuantos_doc (x:xs) c = cuantos_doc xs c
+cuantos_doc ((Docente x):xs) c | x == c = 1 + cuantos_doc xs c
+                               | otherwise = cuantos_doc xs c
+
+cuantos_doc' :: [Rol] -> Cargo -> Int
+cuantos_doc' xs c = length ( filter(\x -> esDocenteC c x ) xs )
+
+data Rol = Decanx
+    | Docente Cargo
+    | NoDocente Area
+    | Estudiante [Carrera] Ingreso
+    deriving(Eq, Show)
+
+estudia :: Rol -> Carrera -> Bool
+estudia (Estudiante [] y) z = False
+estudia (Estudiante (x:xs) y) z = x == z || estudia (Estudiante xs y) z
+estudia _ _ = False
+
+--Ejercicio 3
 
 data Persona = Per String String Int Int Int Int Rol
+     deriving (Eq,Show)
+
+edad :: Persona -> (Int,Int,Int) -> Int
+edad (Per _ _ _ x y z _ ) (a,b,c) | c < z = error ("No nacio aun")
+                                  | b < y || b == y && a < x  = c-z-1
+                                  | otherwise = c-z
+
+existe :: String -> [Persona] -> Bool
+existe x [] = False
+existe x ((Per _ b _ _ _ _ _ ):xs) = x == b || existe x xs
+
+est_astronomia :: [Persona] -> [Persona]
+est_astronomia [] = []
+est_astronomia ((Per x y z h m n a ):xs) | estudia a Astronomia  = (Per x y z h m n a ): est_astronomia xs
+                                         | otherwise = est_astronomia xs
+
+esNoDocente :: Rol -> Bool
+esNoDocente (NoDocente x) = True
+esNoDocente _ = False
+
+padron_NoDocente :: [Persona] -> [(String,Int)]
+padron_NoDocente [] = []
+padron_NoDocente ((Per x y z h m n a ):xs) | esNoDocente a = (x++" "++y,z): padron_NoDocente xs
+                                           | otherwise = padron_NoDocente xs
+
+--Ejercicio 4
+
+data Cola = Vacia | Encolada Persona Cola
+    deriving(Eq, Show)
+
+atender :: Cola -> Cola
+atender Vacia = Vacia
+atender (Encolada x y) = y
+
+encolar :: Persona -> Cola -> Cola
+encolar x Vacia = Encolada x Vacia
+encolar x (Encolada z s) = Encolada z (encolar x s)
+
+busca :: Cola -> Cargo -> Persona
+busca Vacia x = error ("No hay nadie con este cargo en la cola")
+busca (Encolada (Per a b d e f g h) xs) c | esDocenteC c h = (Per a b d e f g h)
+                                          | otherwise = busca xs c
+
+-- El tipo Cola se parece a......
 
 --Ejercicio 5
 data ListaAsoc a b = Vacia | Nodo a b ( ListaAsoc a b )
