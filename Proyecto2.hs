@@ -44,14 +44,16 @@ cuantos_doc (x:xs) c | esDocenteC c x = 1 + cuantos_doc xs c
 cuantos_doc' :: [Rol] -> Cargo -> Int
 cuantos_doc' xs c = length ( filter(\x -> esDocenteC c x ) xs )
 
-data Rol = Decanx
+data Sexo = Masculino | Femenino deriving (Show,Eq)
+
+data Rol = Decanx Sexo
     | Docente Cargo
     | NoDocente Area
-    | Estudiante [Carrera] Ingreso
+    | Estudiante [(Carrera,Ingreso)]
     deriving(Eq, Show)
 
 estudia :: Rol -> Carrera -> Bool
-estudia (Estudiante [] y) z = False
+estudia (Estudiante [] y) _ = False
 estudia (Estudiante (x:xs) y) z = x == z || estudia (Estudiante xs y) z
 estudia _ _ = False
 
@@ -61,7 +63,7 @@ data Persona = Per String String Int Int Int Int Rol
      deriving (Eq,Show)
 
 edad :: Persona -> (Int,Int,Int) -> Int
-edad (Per _ _ _ x y z _ ) (a,b,c) | c < z = error ("No nacio aun")
+edad (Per _ _ _ x y z _ ) (a,b,c) | c < z || ( c == z && b < y ) || ( c == z && y == b && a < x ) = error ("No nacio aun")
                                   | b < y || b == y && a < x  = c-z-1
                                   | otherwise = c-z
 
@@ -73,6 +75,12 @@ est_astronomia :: [Persona] -> [Persona]
 est_astronomia [] = []
 est_astronomia ((Per x y z h m n a ):xs) | estudia a Astronomia  = (Per x y z h m n a ): est_astronomia xs
                                          | otherwise = est_astronomia xs
+
+getRol :: Persona -> Rol
+getRol (Per _ _ _ _ _ _ a) = a
+
+est_astronomia' :: [Persona] -> [Persona]
+est_astronomia' xs = filter (\x -> estudia (getRol x) Astronomia) xs
 
 esNoDocente :: Rol -> Bool
 esNoDocente (NoDocente x) = True
@@ -99,7 +107,7 @@ encolar x (Encolada z s) = Encolada z (encolar x s)
 busca :: Cola -> Cargo -> Persona
 busca ColaVacia x = error ("No hay nadie con este cargo en la cola")
 busca (Encolada (Per a b d e f g h) xs) c | esDocenteC c h = (Per a b d e f g h)
-                                          | otherwise = busca xs c
+                                          | otherwise = busca xs c                                      
 
 -- El tipo Cola se parece a las listas
 atender' :: [Persona] -> [Persona]
@@ -128,8 +136,7 @@ la_long Vacia = 0
 la_long (Nodo a b p) = 1 + la_long p
 
 la_concat :: ListaAsoc a b -> ListaAsoc a b -> ListaAsoc a b
-la_concat Vacia Vacia = Vacia
-la_concat Vacia (Nodo a b p) = Nodo a b (la_concat Vacia p)
+la_concat Vacia a = a
 la_concat (Nodo a b p) s = Nodo a b (la_concat p s )
 
 la_pares :: ListaAsoc a b -> [(a, b)]
@@ -157,6 +164,12 @@ a_hojas :: Integral b => Arbol a -> b
 a_hojas Hoja = 0
 a_hojas (Rama Hoja _ Hoja) = 1
 a_hojas (Rama a _ c) = a_hojas a + a_hojas c
+
+a_hojas' :: Integral b => Arbol a -> b 
+a_hojas' Hoja = 1
+a_hojas' (Rama x _ Hoja) = (a_hojas' x) + 1
+a_hojas' (Rama Hoja _ x) = (a_hojas' x) + 1
+a_hojas' (Rama a _ b) = (a_hojas' a) + (a_hojas' b)
 
 a_inc :: Num a => Arbol a -> Arbol a
 a_inc Hoja = Hoja
