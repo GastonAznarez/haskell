@@ -38,9 +38,8 @@ esDocenteC _ _ = False
 
 cuantos_doc :: [Rol] -> Cargo -> Int
 cuantos_doc [] _ = 0
-cuantos_doc (x:xs) c = cuantos_doc xs c
-cuantos_doc ((Docente x):xs) c | x == c = 1 + cuantos_doc xs c
-                               | otherwise = cuantos_doc xs c
+cuantos_doc (x:xs) c | esDocenteC c x = 1 + cuantos_doc xs c
+                     | otherwise = cuantos_doc xs c
 
 cuantos_doc' :: [Rol] -> Cargo -> Int
 cuantos_doc' xs c = length ( filter(\x -> esDocenteC c x ) xs )
@@ -86,23 +85,35 @@ padron_NoDocente ((Per x y z h m n a ):xs) | esNoDocente a = (x++" "++y,z): padr
 
 --Ejercicio 4
 
-data Cola = Vacia | Encolada Persona Cola
+data Cola = ColaVacia | Encolada Persona Cola
     deriving(Eq, Show)
 
 atender :: Cola -> Cola
-atender Vacia = Vacia
+atender ColaVacia = ColaVacia
 atender (Encolada x y) = y
 
 encolar :: Persona -> Cola -> Cola
-encolar x Vacia = Encolada x Vacia
+encolar x ColaVacia = Encolada x ColaVacia
 encolar x (Encolada z s) = Encolada z (encolar x s)
 
 busca :: Cola -> Cargo -> Persona
-busca Vacia x = error ("No hay nadie con este cargo en la cola")
+busca ColaVacia x = error ("No hay nadie con este cargo en la cola")
 busca (Encolada (Per a b d e f g h) xs) c | esDocenteC c h = (Per a b d e f g h)
                                           | otherwise = busca xs c
 
--- El tipo Cola se parece a......
+-- El tipo Cola se parece a las listas
+atender' :: [Persona] -> [Persona]
+atender' [] = []
+atender' (x:xs) = xs
+
+encolar' :: Persona -> [Persona] -> [Persona]
+encolar' x [] = [x]
+encolar' x (y:xs) = y:(encolar' x xs)
+
+busca' :: [Persona] -> Cargo -> Persona
+busca' [] _ = error ("Esta persona no esta en la Cola")
+busca' ((Per a b d e f g h):xs) c | esDocenteC c h = (Per a b d e f g h)
+                                | otherwise = busca' xs c
 
 --Ejercicio 5
 data ListaAsoc a b = Vacia | Nodo a b ( ListaAsoc a b )
