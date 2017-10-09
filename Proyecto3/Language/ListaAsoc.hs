@@ -24,7 +24,7 @@ la_buscar(Nodo a b p) c | a == c = Just b
 
 -- Verifica si una clave existe en una lista
 la_existe :: Eq a => ListaAsoc a b -> a -> Bool
-la_existe Vacia = False
+la_existe Vacia _ = False
 la_existe (Nodo a b p) c | c == a = True
                          | otherwise = la_existe p c 
 
@@ -38,11 +38,19 @@ la_agregar c d (Nodo a b p) | a == c = (Nodo a d p)
 
 -- Dada una clave, elimina el dato asociado en la lista.
 la_borrar :: Eq a => a -> ListaAsoc a b -> ListaAsoc a b
-la_borrar Vacia = Vacia
+la_borrar _ Vacia = Vacia
 la_borrar a (Nodo b c d) | a == b = d
                          | otherwise = (Nodo b c (la_borrar a d))
 
+la_borrar :: Eq a => a -> ListaAsoc a b -> ListaAsoc a b
+la_borrar _ Vacia = Vacia
+la_borrar a (Nodo b c d) | a == b = d
+                         | otherwise = (Nodo b c (la_borrar a d))
 
+la_cambiar :: Eq a => a -> b -> ListaAsoc a b -> ListaAsoc a b
+la_cambiar _ _ Vacia = Vacia
+la_cambiar a e (Nodo b c d) | a == b = (Nodo b e d )
+                          | otherwise = (Nodo b c (la_borrar a d))
 
 
 
