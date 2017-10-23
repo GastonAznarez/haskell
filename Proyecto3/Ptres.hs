@@ -1,3 +1,8 @@
+--Ejercicio 2
+-- x = 4k
+-- y = -4k
+-- z = 8k
+-- b = not w o b = w = False
 --Ejercicio 3
 -- En HAL el estado se maniupula despues de cada Sentencia.
 data ListaAsoc a b = Vacia
@@ -76,6 +81,13 @@ evalIExpr (Plus x y) a = (evalIExpr x a) + (evalIExpr y a)
 evalIExpr (Prod x y) a = (evalIExpr x a) * (evalIExpr y a)
 evalIExpr (Div x y) a = div (evalIExpr x a) (evalIExpr y a)
 evalIExpr (Mod x y) a = mod (evalIExpr x a) (evalIExpr y a)
+
+--Ejercicio 6
+--Este programa calcula el minimo de 3 numeros y lo almacena en la variable m
+
+--Ejercicio 7
+-- a) Es el algoritmo de la division, calcula la division entera de dos numeros almacenandola en la variable i, y el resto en la variable x.
+-- b) Calcula la cantidad de divisores positivos de un numero, almacenandolos en la variable i.
 
 --Ejercicio 8
 -- Evaluar un paso de ejecución en un programa.
