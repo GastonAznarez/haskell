@@ -26,9 +26,9 @@ data Continuation = ToExec Statement
 type State = (StateI,StateB)
 
 evalIExpr :: IntExpr -> StateI -> Int
-evalIExpr (ConstI x) a = x 
+evalIExpr (ConstI x) a = x
 evalIExpr (VI x) a = fromJust (la_buscar a x)
-evalIExpr (Neg x) a = -1 * evalIExpr x a 
+evalIExpr (Neg x) a = -1 * evalIExpr x a
 evalIExpr (Plus x y) a = (evalIExpr x a) + (evalIExpr y a)
 evalIExpr (Prod x y) a = (evalIExpr x a) * (evalIExpr y a)
 evalIExpr (Div x y) a = div (evalIExpr x a) (evalIExpr y a)
@@ -53,10 +53,16 @@ evalBExpr (Less i1 i2) (si, sb) = (evalIExpr i1 si) < (evalIExpr i2 si)
 
 -- Evaluar un paso de ejecución en un programa.
 evalStep :: Statement -> State -> (State , Continuation)
-evalStep Skip e = (e,Finish)                      
-evalStep AssignB x b e = (la_cambiar x b e,Finish)     
-evalStep AssignI x IntExpr e = (la_cambiar x b e,Finish)       
-evalStep Seq a b e = (a e, b)
-evalStep If [(b,s)] e = ((head filter (x\ -> evalBExpr (fst x)) e,Finish)
-evalStep Do b s e = if evalBExpr == True then (s e, Do b s (s e) )
-	            
+evalStep Skip e = (e,Finish)
+evalStep (AssignB (Var vS vT) bExp) (sI, sB) = ((sI,(la_cambiar vS (evalBExpr bExp (sI, sB)) sB)),Finish)
+--evalStep (AssignI (Var vS vT) iExp) (sI, sB) = (((la_cambiar vS (evalIExpr iExp sI) sI) , sB), Finish)
+evalStep (AssignI (Var vS vT) iExp) (sI, sB) = ( ( (la_cambiar vS ( evalIExpr iExp sI ) sI) , sB) , Finish)
+evalStep (Seq s1 s2) est = case evalStep s1 est of
+                          (nState, Finish) -> (nState, ToExec s2)
+                          (nState, ToExec s3) -> (nState, ToExec (Seq s3 s2))
+evalStep (If (x:list)) est = case evalBExpr (fst x) est of
+                          True -> (est, ToExec (snd x))
+                          False -> (est, ToExec (If list))
+evalStep (Do bExp s1) est = case evalBExpr bExp est of
+                          True -> (est, ToExec (Seq s1 (Do bExp s1)))
+                          False -> (est, Finish)
