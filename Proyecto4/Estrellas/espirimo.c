@@ -1,27 +1,31 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdbool.h>
 
 
-_Bool esprimo(int n){
-	int r = (int)sqrt n;
-	bool p = false;
-	for (int i = 0; i < r && !p; i++)
+
+int esprimo(int n){
+	int p = 0;
+	for (int i = 0; i < n && p==0; i++)
 	 {
-	 	p = n % i == 0;
+	 	if (n % i == 0) {p=1;} ;
+
 	 }
 	 return p;
 }
 
 int main(){
 
-   bool r =  esprimo(x);
+   int x;
+	printf("Ingrese el Numero: ");
+         scanf("%i\n",&x);
+	int r =  esprimo(x);
    while (r){
 
-         printf("Ingrese el Numero: ");
-         scanf("%d\n",x);
+         
 
        if (x<0){printf("\nEl numero debe ser positivo");}
-       else {if r {
+       else {if (r) {
             printf("\nEl numero es primo");
                   } else {
   	                     printf("\nEl numero no es primo");
