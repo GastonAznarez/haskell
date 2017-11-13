@@ -19,17 +19,19 @@ int main() {
   }
 
   while (1 < m){
-    if (i % m == 0 !! m % ) {
+    if (i % m == 0 ) {
       break;
     } else {
       m--;
     }
   }
+  printf("El MCD entre %i y %i es %i\n", x, y, m );
 
   j = 1;
   for (int l = 0; l < y; l++) {
     j *= x;
   }
+  printf("%i elevado a la %i es %i\n", x, y, j );
 
   k = x;
   r = 1;
@@ -41,9 +43,7 @@ int main() {
     r *= k;
   }
 
-  printf("El MCD entre %i y %i es %i\n", x, y, m );
 
-  printf("%i elevado a la %i es %i\n", x, y, j );
 
   printf("%i elevado a la %i es %i (optimizado)\n", x, y, r );
 
