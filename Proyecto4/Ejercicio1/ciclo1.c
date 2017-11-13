@@ -1,7 +1,9 @@
 #include <stdio.h>
 
 int main() {
-    int x, y, i;
+    int x;
+    int y;
+    int i;
     x = 0;
     y = 0;
     i = 0;
@@ -13,7 +15,7 @@ int main() {
 
     i = 0;
     while (y <= x) {
-      x -= y;
+      x = x - y;
       i++;
     }
 

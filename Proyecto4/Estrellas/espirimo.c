@@ -2,10 +2,10 @@
 #include <math.h>
 
 
-bool esprimo(int n){
-	int r = sqrt n;
+_Bool esprimo(int n){
+	int r = (int)sqrt n;
 	bool p = false;
-	for (int i = 0; i < r && !p; ++i)
+	for (int i = 0; i < r && !p; i++)
 	 {
 	 	p = n % i == 0;
 	 }

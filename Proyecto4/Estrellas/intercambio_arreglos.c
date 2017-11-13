@@ -16,9 +16,9 @@ int main (){
     printf("Inserte el la posicion del segundo numero que desea cambiar: ");
     scanf("%d\n",y);
 
-    
+
     printf("\nCuantos elementos va a tener el arreglo? ");
-    scanf ("%d\n",N)
+    scanf ("%d\n",N);
 
     int a[N];
     int i = 0;
