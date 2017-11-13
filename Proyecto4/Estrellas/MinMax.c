@@ -1,5 +1,26 @@
 #include <stdio.h>
 
+struct datos_t {
+  int maximo;
+  int minimo;
+};
+
+struct datos_t min_max(int b[], int N) {
+  int min, max;
+  min = b[0];
+  max = b[0];
+  for (int i = 1; i < N; i++) {
+    if (b[i] < min) {
+      min = b[i];
+    }
+    if (b[i] > max) {
+      max = b[i];
+    }
+  }
+  struct datos_t res = {max, min};
+  return res;
+}
+
 int main() {
   int N, i;
 
@@ -25,27 +46,3 @@ int main() {
   printf("El minimo es: %i, y el maximo: %i\n", res.minimo, res.maximo);
 
 }
-
-struct datos_t min_max(int b[], int N) {
-  struct datos_t res;
-  int min, max;
-  min = b[0];
-  max = b[0];
-  for (int i = 1; i < N; i++) {
-    if (b[i] < min) {
-      min = b[i];
-    }
-    if (b[i] > max) {
-      max = b[i];
-    }
-  }
-  res.maximo = max;
-  res.minimo = min;
-
-  return res;
-}
-
-struct datos_t {
-  int maximo;
-  int minimo;
-};
