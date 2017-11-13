@@ -16,16 +16,17 @@ struct comp_t cuantos(int a[], int tam, int elem){
 			M = M + 1;
 		} else {
 			I = I + 1;
-		} 
+		}
 	}
+}
 	return struct comp_t
 	{
 		int m;
 		int I;
 		int M;
 	};
-
 }
+
 
 struct comp_t {
 int menores;
@@ -34,10 +35,10 @@ int mayores;
 }
 
  int main() {
- 	int x
+ 	int x;
     printf("Calcular los numeros con respecto al numero: ");
     scanf("%d\n",x);
-    
+
     int a[N];
     int i = 0;
     while (i < N) {
@@ -50,8 +51,8 @@ int mayores;
     while (i < N) {
 	printf("%d ", a[i]);
 	i++;
-    
-    struct comp_t res = struct comp_t cuantos (a[],N,x)
+
+    struct comp_t res = struct comp_t cuantos (a[],N,x);
     printf("\nMenores: %i \nIguales: %i \nMayores: ",res.menores,res,iguales,res.mayores);
 
 
@@ -59,5 +60,5 @@ int mayores;
 
 
 
-
-} 
+}
+}
