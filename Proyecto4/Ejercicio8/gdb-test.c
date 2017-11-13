@@ -5,13 +5,13 @@
 
 // Devuelve la cantidad de elementos pares en un arreglo:
 int cantidad_de_pares(int a[], int size) {
-    int i;
+    int i = 0; //Estaba en i, e i no estaba definido (un numero negativo en memoria, creo que el menor valor de un int)
     int cantidad = 0;
-    while (i <= N) {
-	if (a[i] % 2 == 0) {
-	    cantidad = cantidad + 1;
-	    i = i + 1;
-	}
+    while (i < N) { //Esto erra <= N, pedia a a[] un elemento que no tenia
+    	if (a[i] % 2 == 0) {
+    	    cantidad = cantidad + 1;
+    	}
+      i = i + 1; //Esto estaba adentro del if, el ciclo no terminaba si no eran todos pares
     }
     return cantidad;
 }
@@ -31,6 +31,6 @@ int main() {
 	i++;
     }
     printf("\n La cantidad de números pares del arreglo es %d \n",
-	   cantidad_de_pares(a, N + 1));
+	   cantidad_de_pares(a, N + 1)); //El + 1 esta de mas, en todo caso, N o N - 1
     return 0;
 }
